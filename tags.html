@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Posts tagged {{ meta.title }}</title>
+</head>
+<body>
+	<h1>Posts tagged {{ meta.title }}</h1>
+	<ul>
+	{% for tag in meta.tags %}
+		<li><a href="{{ tag.url }}">{{ tag.name }}</a></li>
+	{% endfor %}
+	</ul>
+</body>
+</html>
