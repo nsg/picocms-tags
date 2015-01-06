@@ -37,7 +37,9 @@ class Pico_Tags {
 
 	public function request_url(&$url) {
 		if (preg_match("/^tags?\/(.*)/", $url, $m)) {
-			$this->tag = strtolower($m[1]);
+			$this->tag = strtolower(urldecode($m[1]));
+			$this->tag = str_replace('-', ' ', $this->tag);
+
 		}
 	}
 
