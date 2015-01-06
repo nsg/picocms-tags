@@ -37,13 +37,14 @@ class Pico_Tags {
 
 	public function request_url(&$url) {
 		if (preg_match("/^tags?\/(.*)/", $url, $m)) {
-			$this->tag = strtolower($m[1]);
+			$this->tag = strtolower(urldecode($m[1]));
+			$this->tag = str_replace('-', ' ', $this->tag);
+
 		}
 	}
 
 	public function before_render(&$twig_vars, &$twig, &$template) {
 		if ($this->is_tag_page()) {
-			header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
 			$template = 'tags';
 			$page_tags = array();
 
@@ -63,7 +64,11 @@ class Pico_Tags {
 				}
 			}
 
-			$twig_vars["meta"]["tags"] = $page_tags;
+			if (count($page_tags) > 0) {
+				header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
+				$twig_vars["meta"]["tags"] = $page_tags;
+			}
+
 			$twig_vars["meta"]["title"] = $this->tag;
 		}
 	}
